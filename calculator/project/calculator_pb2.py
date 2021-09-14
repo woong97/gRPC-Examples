@@ -19,10 +19,56 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x10\x63\x61lculator.proto\"\x17\n\x06Number\x12\r\n\x05value\x18\x01 \x01(\x02\x32.\n\nCalculator\x12 \n\nSquareRoot\x12\x07.Number\x1a\x07.Number\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x10\x63\x61lculator.proto\"?\n\x0bRequestInfo\x12\x0e\n\x06lvalue\x18\x01 \x01(\x02\x12\x0e\n\x06rvalue\x18\x02 \x01(\x02\x12\x10\n\x08operator\x18\x03 \x01(\t\"\x17\n\x06Number\x12\r\n\x05value\x18\x01 \x01(\x02\x32\x32\n\nCalculator\x12$\n\tCalculate\x12\x0c.RequestInfo\x1a\x07.Number\"\x00\x62\x06proto3'
 )
 
 
+
+
+_REQUESTINFO = _descriptor.Descriptor(
+  name='RequestInfo',
+  full_name='RequestInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='lvalue', full_name='RequestInfo.lvalue', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='rvalue', full_name='RequestInfo.rvalue', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='operator', full_name='RequestInfo.operator', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=20,
+  serialized_end=83,
+)
 
 
 _NUMBER = _descriptor.Descriptor(
@@ -52,12 +98,20 @@ _NUMBER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=20,
-  serialized_end=43,
+  serialized_start=85,
+  serialized_end=108,
 )
 
+DESCRIPTOR.message_types_by_name['RequestInfo'] = _REQUESTINFO
 DESCRIPTOR.message_types_by_name['Number'] = _NUMBER
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+RequestInfo = _reflection.GeneratedProtocolMessageType('RequestInfo', (_message.Message,), {
+  'DESCRIPTOR' : _REQUESTINFO,
+  '__module__' : 'calculator_pb2'
+  # @@protoc_insertion_point(class_scope:RequestInfo)
+  })
+_sym_db.RegisterMessage(RequestInfo)
 
 Number = _reflection.GeneratedProtocolMessageType('Number', (_message.Message,), {
   'DESCRIPTOR' : _NUMBER,
@@ -75,15 +129,15 @@ _CALCULATOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=45,
-  serialized_end=91,
+  serialized_start=110,
+  serialized_end=160,
   methods=[
   _descriptor.MethodDescriptor(
-    name='SquareRoot',
-    full_name='Calculator.SquareRoot',
+    name='Calculate',
+    full_name='Calculator.Calculate',
     index=0,
     containing_service=None,
-    input_type=_NUMBER,
+    input_type=_REQUESTINFO,
     output_type=_NUMBER,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

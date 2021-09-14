@@ -1,6 +1,11 @@
-import math
 
 
-def squre_root(x):
-    y = math.sqrt(x)
-    return y
+def calculate(lvalue, rvalue, operator):
+    if operator == '+':
+        return  lvalue + rvalue
+    elif operator == '-':
+        return  lvalue - rvalue
+    elif operator == '*':
+        return lvalue * rvalue
+    elif operator == '/':
+        return lvalue / rvalue

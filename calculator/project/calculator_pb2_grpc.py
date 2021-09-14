@@ -14,9 +14,9 @@ class CalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SquareRoot = channel.unary_unary(
-                '/Calculator/SquareRoot',
-                request_serializer=calculator__pb2.Number.SerializeToString,
+        self.Calculate = channel.unary_unary(
+                '/Calculator/Calculate',
+                request_serializer=calculator__pb2.RequestInfo.SerializeToString,
                 response_deserializer=calculator__pb2.Number.FromString,
                 )
 
@@ -24,7 +24,7 @@ class CalculatorStub(object):
 class CalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SquareRoot(self, request, context):
+    def Calculate(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,9 +33,9 @@ class CalculatorServicer(object):
 
 def add_CalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SquareRoot': grpc.unary_unary_rpc_method_handler(
-                    servicer.SquareRoot,
-                    request_deserializer=calculator__pb2.Number.FromString,
+            'Calculate': grpc.unary_unary_rpc_method_handler(
+                    servicer.Calculate,
+                    request_deserializer=calculator__pb2.RequestInfo.FromString,
                     response_serializer=calculator__pb2.Number.SerializeToString,
             ),
     }
@@ -49,7 +49,7 @@ class Calculator(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SquareRoot(request,
+    def Calculate(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Calculator/SquareRoot',
-            calculator__pb2.Number.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/Calculator/Calculate',
+            calculator__pb2.RequestInfo.SerializeToString,
             calculator__pb2.Number.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

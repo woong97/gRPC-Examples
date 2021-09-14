@@ -11,9 +11,13 @@ except Exception as e:
 
 class CalcuatorServicer(calculator_pb2_grpc.CalculatorServicer):
 
-    def SquareRoot(self, request, context):
+    def Calculate(self, request, context):
         response = calculator_pb2.Number()
-        response.vallue = calculator.squre_root(request.value)
+        response.value = calculator.calculate(
+                                lvalue=request.lvalue,
+                                rvalue=request.rvalue,
+                                operator=request.operator
+                        )
         return response
 
 

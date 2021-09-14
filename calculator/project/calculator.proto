@@ -1,13 +1,18 @@
 syntax = "proto3";
 
+service Calculator {
+    rpc Calculate(RequestInfo) returns (Number){}
+}
+
+message RequestInfo {
+    float lvalue = 1;
+    float rvalue = 2;
+    string operator = 3;
+}
+
 message Number {
     float value = 1;
 }
-
-service Calculator {
-    rpc SquareRoot(Number) returns (Number){}
-}
-
 
 
 

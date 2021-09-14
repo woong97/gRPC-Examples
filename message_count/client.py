@@ -6,6 +6,7 @@ import grpc
 
 print(__name__)
 
+
 def run():
     counter = 0
     pid = os.getpid()
@@ -23,6 +24,7 @@ def run():
                 print("KeyboardInterrupt")
                 channel.unsubscribe(close)
                 exit()
+
 
 def close(channel):
     channel.close()
