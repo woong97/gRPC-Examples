@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  grpcbackend:
+    build: ./
+    container_name: grpc-calculator
+    restart: always
+    ports:
+      - "50051:50051"

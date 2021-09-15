@@ -2,9 +2,8 @@ try:
     import grpc
     from concurrent import futures
     import time
-    import calculator
-    import calculator_pb2       #This are File GRPC Gegerated for me
-    import calculator_pb2_grpc  #This are File GRPC Gegerated for me
+    from function import calculator
+    from grpc_generated_files import calculator_pb2, calculator_pb2_grpc  #This are File GRPC Gegerated for me
 except Exception as e:
     print("error loading modules")
 
@@ -24,8 +23,8 @@ class CalcuatorServicer(calculator_pb2_grpc.CalculatorServicer):
 def run():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     calculator_pb2_grpc.add_CalculatorServicer_to_server(CalcuatorServicer(), server)
-    print('Starting server. Listening on port 80')
-    server.add_insecure_port('[::]:80')
+    print('Starting server. Listening on port 50051')
+    server.add_insecure_port('[::]:50051')
     server.start()
 
     try:
