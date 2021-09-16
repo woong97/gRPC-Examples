@@ -24,7 +24,15 @@ def run():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     calculator_pb2_grpc.add_CalculatorServicer_to_server(CalcuatorServicer(), server)
     print('Starting server. Listening on port 50051')
-    server.add_insecure_port('[::]:50051')
+
+    with open("./ssl_key/server.key", "rb") as f:
+        private_key = f.read()
+    with open("./ssl_key/server.crt", "rb") as f:
+        certificate_chain = f.read()
+    server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain,),))
+    server.add_secure_port('[::]:50051', server_credentials)
+
+    # server.add_insecure_port('[::]:50051')
     server.start()
 
     try:

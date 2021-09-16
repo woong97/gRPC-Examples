@@ -1,6 +1,7 @@
-FROM gcr.io/google_appengine/python:latest
+FROM python:3.7
+RUN pip install protobuf grpcio
 
-WORKDIR /app
-ADD . /app
-RUN pip install -r requirements.txt
-ENTRYPOINT ["python", "grpcserver/server.py"]
+COPY ./grpcserver ./app
+WORKDIR ./app
+CMD python server.py
+EXPOSE 50051
