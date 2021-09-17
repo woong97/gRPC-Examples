@@ -14,7 +14,7 @@ To get rid of red line for 'import' in proto file,
 ## Install Environment
 ```
 $ brew install protobuf
-$ go mod init pb
+$ go mod init github.com/{github id}/{repository}
 $ go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
 $ go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 $ export PATH="$PATH:$(go env GOPATH)/bin"
