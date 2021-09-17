@@ -1,5 +1,25 @@
+
+## VS Code settings
+To get rid of red line for 'import' in proto file, go Code->Preference->Settings
+Search Protoc, and edit settins.json so that it has this filed.
+
+"protoc": {
+    "path": "/usr/local/bin/protoc",
+    "options": [
+        "--proto_path=proto"
+    ]
+}
+
+## Install Environment
 ```
-$ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
-$ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
-$ protoc --proto_path=proto proto/*.proto --go_out=pb --go_opt=Mproto/processor_message.proto=github.com/woong97/grpc_study/tech_school/project1
+$ brew install protobuf
+$ go mod init pb
+$ go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
+$ go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
+$ export PATH="$PATH:$(go env GOPATH)/bin"
+```
+
+## Run
+```
+$ make gen
 ```
