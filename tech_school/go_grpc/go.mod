@@ -1,4 +1,4 @@
-module pb
+module github.com/woong97/grpc_study/tech_school/go_grpc
 
 go 1.15
 

@@ -1,15 +1,16 @@
 
 ## VS Code settings
-To get rid of red line for 'import' in proto file, go Code->Preference->Settings
-Search Protoc, and edit settins.json so that it has this filed.
-
+To get rid of red line for 'import' in proto file,
+- Go Code -> Preference -> Settings
+- Search Protoc, and edit settins.json so that it has this filed.
+```
 "protoc": {
     "path": "/usr/local/bin/protoc",
     "options": [
         "--proto_path=proto"
     ]
 }
-
+```
 ## Install Environment
 ```
 $ brew install protobuf
