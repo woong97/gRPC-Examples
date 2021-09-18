@@ -17,7 +17,7 @@ import (
 func TestClientCreateLaptop(t *testing.T) {
 	t.Parallel()
 	laptopStore := service.NewInMemoryLaptopStore()
-	serverAddress := startTestLaptopServer(t, laptopStore, nil)
+	serverAddress := startTestLaptopServer(t, laptopStore, nil, nil)
 	// fmt.Println("serverAddress: %s", serverAddress)
 	laptopClient := newTestLaptopClient(t, serverAddress)
 
@@ -85,7 +85,7 @@ func TestClientSearchLaptop(t *testing.T) {
 		err := laptopStore.Save(laptop)
 		require.NoError(t, err)
 	}
-	serverAddress := startTestLaptopServer(t, laptopStore, nil)
+	serverAddress := startTestLaptopServer(t, laptopStore, nil, nil)
 	laptopClient := newTestLaptopClient(t, serverAddress)
 
 	req := &pb.SearchLaptopRequest{Filter: filter}
@@ -108,14 +108,16 @@ func TestClientSearchLaptop(t *testing.T) {
 }
 
 // skip func TestClientUploadImage(t *testing.T){}
+// skip func TestClientRateLaptop(t *testing.T){}
 // reference: https://github.com/techschool/pcbook-go
 
 func startTestLaptopServer(
 	t *testing.T,
 	laptopStore service.LaptopStore,
 	imageStore service.ImageStore,
+	ratingStore service.RatingStore,
 ) string {
-	laptopServer := service.NewLaptopServer(laptopStore, imageStore)
+	laptopServer := service.NewLaptopServer(laptopStore, imageStore, ratingStore)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterLaptopServiceServer(grpcServer, laptopServer)
