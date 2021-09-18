@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"log"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/woong97/grpc_study/tech_school/go_grpc/pb"
@@ -39,7 +38,7 @@ func (server *LaptopServer) CreateLaptop(
 		}
 		laptop.Id = id.String()
 	}
-	time.Sleep(5 * time.Second)
+
 	// If keyboard Interrupt in client, save is not occured
 	if ctx.Err() == context.Canceled {
 		log.Print("request is canceld")
@@ -68,4 +67,34 @@ func (server *LaptopServer) CreateLaptop(
 		Id: laptop.Id,
 	}
 	return res, nil
+}
+
+// SearchLaptop is a server-streaming RPC to search for laptops
+func (server *LaptopServer) SearchLaptop(
+	req *pb.SearchLaptopRequest,
+	stream pb.LaptopService_SearchLaptopServer,
+) error {
+	filter := req.GetFilter()
+	log.Printf("receive a search-laptop request with filter: %v", filter)
+
+	err := server.Store.Search(
+		stream.Context(),
+		filter,
+		func(laptop *pb.Laptop) error {
+			res := &pb.SearchLaptopResponse{Laptop: laptop}
+			err := stream.Send(res)
+
+			if err != nil {
+				return err
+			}
+
+			log.Printf("send laptop with id: %s", laptop.GetId())
+			return nil
+		},
+	)
+
+	if err != nil {
+		return status.Errorf(codes.Internal, "unexpected error: %v", err)
+	}
+	return nil
 }
