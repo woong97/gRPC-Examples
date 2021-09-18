@@ -16,8 +16,8 @@ import (
 
 func TestClientCreateLaptop(t *testing.T) {
 	t.Parallel()
-
-	laptopServer, serverAddress := startTestLaptopServer(t, service.NewInMemoryLaptopStore())
+	laptopStore := service.NewInMemoryLaptopStore()
+	serverAddress := startTestLaptopServer(t, laptopStore, nil)
 	// fmt.Println("serverAddress: %s", serverAddress)
 	laptopClient := newTestLaptopClient(t, serverAddress)
 
@@ -33,7 +33,7 @@ func TestClientCreateLaptop(t *testing.T) {
 	require.Equal(t, expectedId, res.Id)
 
 	// check that the laptop is saved to the store
-	other, err := laptopServer.Store.Find(res.Id)
+	other, err := laptopStore.Find(res.Id)
 	require.NoError(t, err)
 	require.NotNil(t, other)
 
@@ -51,7 +51,7 @@ func TestClientSearchLaptop(t *testing.T) {
 		MinRam:      &pb.Memory{Value: 8, Unit: pb.Memory_GIGABYTE},
 	}
 
-	store := service.NewInMemoryLaptopStore()
+	laptopStore := service.NewInMemoryLaptopStore()
 	expectedIDs := make(map[string]bool)
 
 	for i := 0; i < 6; i++ {
@@ -82,10 +82,10 @@ func TestClientSearchLaptop(t *testing.T) {
 			expectedIDs[laptop.Id] = true
 		}
 
-		err := store.Save(laptop)
+		err := laptopStore.Save(laptop)
 		require.NoError(t, err)
 	}
-	_, serverAddress := startTestLaptopServer(t, store)
+	serverAddress := startTestLaptopServer(t, laptopStore, nil)
 	laptopClient := newTestLaptopClient(t, serverAddress)
 
 	req := &pb.SearchLaptopRequest{Filter: filter}
@@ -107,8 +107,15 @@ func TestClientSearchLaptop(t *testing.T) {
 	require.Equal(t, len(expectedIDs), found)
 }
 
-func startTestLaptopServer(t *testing.T, store service.LaptopStore) (*service.LaptopServer, string) {
-	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore())
+// skip func TestClientUploadImage(t *testing.T){}
+// reference: https://github.com/techschool/pcbook-go
+
+func startTestLaptopServer(
+	t *testing.T,
+	laptopStore service.LaptopStore,
+	imageStore service.ImageStore,
+) string {
+	laptopServer := service.NewLaptopServer(laptopStore, imageStore)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterLaptopServiceServer(grpcServer, laptopServer)
@@ -116,7 +123,7 @@ func startTestLaptopServer(t *testing.T, store service.LaptopStore) (*service.La
 	require.NoError(t, err)
 
 	go grpcServer.Serve(listener) // non block call
-	return laptopServer, listener.Addr().String()
+	return listener.Addr().String()
 
 }
 
