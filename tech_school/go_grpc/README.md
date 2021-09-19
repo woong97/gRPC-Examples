@@ -20,7 +20,17 @@ $ go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 $ export PATH="$PATH:$(go env GOPATH)/bin"
 ```
 
-## Run
+### Nginx
+- Copy cert directory to /usr/local/etc/nginx (nginx.conf existed in this directory)
+- You should modify nginx.conf as I copied to this repository
+- run command: nginx
+- stop command: nginx -s stop
+- log will be saved in /usr/local/var/log/nginx/error.log
+
+## How to run
 ```
-$ make gen
+$ make server1-tls
+$ make server2-tls
+$ nginx
+$ make client-tls
 ```

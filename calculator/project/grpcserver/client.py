@@ -17,8 +17,7 @@ from grpc_generated_files import calculator_pb2, calculator_pb2_grpc
 with open("ssl_key/server.crt", "rb") as f:
     credentials = grpc.ssl_channel_credentials(f.read())
 
-with grpc.secure_channel("localhost:50051",
-                         credentials=credentials) as channel:
+with grpc.insecure_channel("localhost:50051") as channel:
     stub = calculator_pb2_grpc.CalculatorStub(channel)
     number = calculator_pb2.RequestInfo(lvalue=16, rvalue=10, operator='/')
     response = stub.Calculate(number)

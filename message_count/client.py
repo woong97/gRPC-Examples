@@ -10,7 +10,7 @@ print(__name__)
 def run():
     counter = 0
     pid = os.getpid()
-    with grpc.insecure_channel("localhost:9999") as channel:
+    with grpc.insecure_channel("localhost:50051") as channel:
         stub = pingpong_pb2_grpc.PingPongServiceStub(channel)
         while True:
             try:
